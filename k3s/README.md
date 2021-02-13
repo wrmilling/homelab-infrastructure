@@ -10,6 +10,4 @@ My arm64 nodes includes the master node for the full cluster as well as a few wo
 
 ## Credits
 
-Inspiration and Code ~drawn~ stolen from the following sources:
-
-* [billimek/homelab-infrastructure](https://github.com/billimek/homelab-infrastructure/tree/master/k3s) - [License](https://github.com/billimek/homelab-infrastructure/blob/master/LICENSE)
+This section of `homelab-infrastructure` has an updated [LICENSE](LICENSE) reflect the amount of work pulled from the [billimek/homelab-infrastructure](https://github.com/billimek/homelab-infrastructure/tree/master/k3s) - [License](https://github.com/billimek/homelab-infrastructure/blob/master/LICENSE).
