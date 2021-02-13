@@ -11,4 +11,4 @@ TBD
 
 ## k3s Cluster Setup
 
-TBD
+Check out the [k3s README.md](k3s/README.md) for details.
