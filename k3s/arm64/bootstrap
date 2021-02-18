@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+message() {
+  echo -e "\n######################################################################"
+  echo "# $1"
+  echo "######################################################################"
+}
+
+need() {
+  which "$1" &>/dev/null || die "Binary '$1' is missing but required"
+}
+
+usage() {
+  cat << EOF
+usage: bootstrap COMMAND [NODE] [VOLUME]
+
+Commands:
+    prepare     Prepare provided mount with required files for the given node.
+                If no mount is provided, it will assume that you are running
+                on an Apple / OS X based system and check for a default 
+                /Volumes/system-boot/ mount point and fail if not found.
+    list        List available nodes to be built
+
+Examples:
+    bootstrap prepare node-1 /mnt/system-boot/
+    bootstrap prepare node-1
+    bootstrap list
+EOF
+}
+
+list() {
+  echo -e "The following node files are detected:\n"
+  ls -1 nodes
+}
+
+prepare() {
+  # Check for node validity
+  NODE="$2"
+  if [ -f "nodes/$NODE" ]; then
+    echo "Node $NODE found"
+  else
+    echo "Node not found, available nodes below"
+    list
+    exit 1
+  fi
+
+  # Check for volume validity
+  TARGET_VOLUME="$3"
+  if [ -z "$TARGET_VOLUME" ]; then
+    echo "No target volume provided, checking default"
+    if [ -f /Volumes/system-boot/cmdline.txt ]; then
+      echo "Found /Volumes/system-boot, setting as the target volume"
+      TARGET_VOLUME="/Volumes/system-boot"
+    else
+      echo "No valid target volume exists, please try again with a target volume provided"
+      exit 1
+    fi
+  fi
+
+  # Do the move
+  export REPO_ROOT=$(git rev-parse --show-toplevel)
+  . "$REPO_ROOT"/.env
+
+  message "writing $NODE configuration to $TARGET_VOLUME"
+
+  echo "copying cmdline.txt to $TARGET_VOLUME/cmdline.txt"
+  cp -f cmdline.txt "$TARGET_VOLUME/cmdline.txt"
+  echo "copying network-config to $TARGET_VOLUME/network-config"
+  cp -f network-config "$TARGET_VOLUME/network-config"
+  echo "copying nodes/${NODE} to $TARGET_VOLUME/user-data"
+  envsubst < "nodes/${NODE}" > "$TARGET_VOLUME/user-data"
+}
+
+case "$1" in
+prepare)
+  need "envsubst"
+  prepare
+  ;;
+list)
+  list
+  ;;
+*)
+  usage
+  ;;
+esac
