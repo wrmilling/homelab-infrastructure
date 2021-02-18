@@ -8,11 +8,7 @@ We are using the arm64 ubuntu image for the Raspberry Pi 4 nodes. They can be fl
 
 Download: [Ubuntu Server 20.04.2 LTS](https://ubuntu.com/download/raspberry-pi/thank-you?version=20.04.2&architecture=server-arm64+raspi)
 
-## Master Node Setup
-
-TBD
-
-## Worker Node Setup
+## k3s Node Setup
 
 ### Scripted
 
