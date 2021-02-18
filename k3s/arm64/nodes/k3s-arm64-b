@@ -1,0 +1,37 @@
+#cloud-config
+
+hostname: k3s-arm64-b
+
+chpasswd:
+  expire: false
+  list:
+  - ubuntu:$UBUNTU_PASSWORD
+
+# Enable password authentication with the SSH daemon
+ssh_pwauth: false
+ssh_import_id:
+- gh:wrmilling
+ssh_authorized_keys:
+  - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINb0CjZ5VG6kN8SBz/HRZu7UbpVLCSWmOMgC0YLvOCXj Winston@Milli.ng"
+  - "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCuubTrtr9dMPUXrUGeQ91JoQlkiDDdn9KELJ4O4YTzibsurvlfqdgXSGStjD2wWtrDuF9eoEZ+nW4EGdWGnFny+qsl8YgHCQT/pGivnO9lzEK8uoohOBDUxkw3IzRO3/k9gs028cnASpQFrwQm2Y0LfpsS5X2wj6t4nb8uFiO6yVYrZGp6qGEsAGeV9c05s3wNrOG/kNvxMoV4DHSH+X92AAyWieWBCYPuFoa5kH3hXbWC6yYbfkhGSXqAYTFHSvEHgVQL10d0LDL/MzET0dFTA0k6w76HeGsVh/I3pXYNapKZwBHiC1BOft4suv1sfjoCqgkk2U054+u+9NZKtV56GzCUMs4eQlRLB4cXRFmHyYhjIMmAPFLT5PsjmlVWd2+wPHTqu8P05qbSLm+9WeOyTsCv9JVvIykp8/aZzN+Nv/nJ7eeEdfGKaDkP4O4aNCskHR4yvJgDXGtLtqN+Vv/2sEQln18jR4+yil8tW7w2w+JVDCu1O00oyD2iCP7ai0VKutbothgL0fO6px/9rAQJaCVwNJgDqTDLWylMJwDCQfg3y/1BsnO4/50Dt94/5R5epRxTtOIZgOb7y9JWQjHBJO+yPPOMywkdpYNdthRKhlXKTQxinuGu+sZId5CYyD3ZmXZwd3YDFHkU7bgr6UBD+reSQAp7HRs388Psqo7pWQ== Winston@Milli.ng"
+
+## Update apt database and upgrade packages on first boot
+package_update: true
+package_upgrade: true
+
+ntp:
+  enabled: true
+
+packages:
+- curl
+- wget
+- htop
+- vim
+- nfs-common
+
+runcmd:
+- ln -sfn /run/systemd/resolve/resolv.conf /etc/resolv.conf
+- curl -sfL https://get.k3s.io | K3S_URL=https://k3s-arm64-0:6443 K3S_TOKEN=$K3OS_TOKEN sh -s - --node-taint arm=true:NoExecute  --node-label "k3s-upgrade=enabled"
+- apt autoremove -fy
+- sync
+- reboot -f
