@@ -7,20 +7,20 @@ message() {
 }
 
 need() {
-    which "$1" &>/dev/null || die "Binary '$1' is missing but required."
+  which "$1" &>/dev/null || die "Binary '$1' is missing but required."
 }
 
 usage() {
-	cat << EOF
+  cat << EOF
 usage: geniso COMMAND [NODE]
 
 Commands:
-	generate    Generate an ISO by providing a node
-	list        List available nodes to be built
+    generate    Generate an ISO by providing a node
+    list        List available nodes to be built
 
 Examples:
-	geniso GENERATE node-1
-	geniso list
+    geniso GENERATE node-1
+    geniso list
 EOF
 }
 
@@ -30,44 +30,43 @@ list() {
 }
 
 generate() {
-	NODE="$2"
+  NODE="$2"
   if [ -f "nodes/$NODE" ]
-    then
-      echo "Node $NODE found."
-    else
-      echo "Node not found, available nodes below."
-			list
-			exit 1
+  then
+    echo "Node $NODE found."
+  else
+    echo "Node not found, available nodes below."
+    list
+    exit 1
   fi
 
-	export REPO_ROOT=$(git rev-parse --show-toplevel)
-	. "$REPO_ROOT"/.env
+  export REPO_ROOT=$(git rev-parse --show-toplevel)
+  . "$REPO_ROOT"/.env
 
-	message "Creating k3s-seed ISO for $NODE."
-	echo "Touching meta-data file."
-	touch meta-data
-	echo "Populating variables to temporary user-data file."
-	envsubst < "nodes/${NODE}" > "user-data"
-	echo "Running 'cloud-localds k3s-seed-$NODE.iso user-data meta-data'."
-	cloud-localds k3s-seed-$NODE.iso user-data meta-data
-	rm user-data
-	rm meta-data
-	echo "Copying seed ISO to Proxmox"
-	scp k3s-seed-$NODE.iso root@destiny:/var/lib/vz/template/iso/
+  message "Creating k3s-seed ISO for $NODE."
+  echo "Touching meta-data file."
+  touch meta-data
+  echo "Populating variables to temporary user-data file."
+  envsubst < "nodes/${NODE}" > "user-data"
+  echo "Running 'cloud-localds k3s-seed-$NODE.iso user-data meta-data'."
+  cloud-localds k3s-seed-$NODE.iso user-data meta-data
+  rm user-data
+  rm meta-data
+  echo "Copying seed ISO to Proxmox"
+  scp k3s-seed-$NODE.iso root@destiny:/var/lib/vz/template/iso/
 }
 
 case "$1" in
 generate)
-	need "scp"
-	need "envsubst"
-	need "cloud-localds"
-	generate
-	;;
+  need "scp"
+  need "envsubst"
+  need "cloud-localds"
+  generate
+  ;;
 list)
-	list
-	;;
+  list
+  ;;
 *)
-	usage
-	;;
+  usage
+  ;;
 esac
-
