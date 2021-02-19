@@ -68,7 +68,7 @@ prepare() {
   echo "copying network-config to $TARGET_VOLUME/network-config"
   cp -f network-config "$TARGET_VOLUME/network-config"
   echo "copying nodes/${NODE} to $TARGET_VOLUME/user-data"
-  envsubst < "nodes/${NODE}" > "$TARGET_VOLUME/user-data"
+  UBUNTU_PASSWORD="${UBUNTU_PASSWORD}" K3S_NODE_TOKEN="${K3S_NODE_TOKEN}" envsubst < "nodes/${NODE}" > "$TARGET_VOLUME/user-data"
 }
 
 case "$1" in

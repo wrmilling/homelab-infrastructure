@@ -28,7 +28,7 @@ packages:
 - qemu-guest-agent
 
 ntp:
-  enabled: true
+  enabled: true`
   
 runcmd:
 - ln -sfn /run/systemd/resolve/resolv.conf /etc/resolv.conf

@@ -26,7 +26,7 @@ EOF
 
 list() {
   echo -e "The following node files are detected:\n"
-  ls -1 nodes
+  ls -1 nodes | grep -v network-config
 }
 
 generate() {
@@ -47,9 +47,13 @@ generate() {
   echo "Touching meta-data file."
   touch meta-data
   echo "Populating variables to temporary user-data file."
-  envsubst < "nodes/${NODE}" > "user-data"
-  echo "Running 'cloud-localds k3s-seed-$NODE.iso user-data meta-data'."
-  cloud-localds k3s-seed-$NODE.iso user-data meta-data
+  UBUNTU_PASSWORD="${UBUNTU_PASSWORD}" K3S_NODE_TOKEN="${K3S_NODE_TOKEN}" envsubst < "nodes/${NODE}" > "user-data"
+  echo "Running cloud-localds for your node."
+  if [ -f "nodes/$NODE.network-config" ]; then 
+    cloud-localds k3s-seed-$NODE.iso --network-config=nodes/$NODE.network-config user-data meta-data
+  else 
+    cloud-localds k3s-seed-$NODE.iso user-data meta-data
+  fi
   rm user-data
   rm meta-data
   echo "Copying seed ISO to Proxmox"

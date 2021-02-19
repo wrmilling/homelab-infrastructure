@@ -5,9 +5,9 @@
 This is a one-time activity to be done on the Proxmox host and creates a base template from the Ubuntu cloud-init image. This assumes a fairly standard proxmox install using lvm and having iso images stored on the local drive. Currently using 8GB ram nodes to match the arm64 node base memory. 
 
 ```
-qm create 1000 --name focal-server-cloudimg-amd64 --memory 8192 --cpu cputype=host --cores 4 --serial0 socket --vga serial0 --net0 virtio,bridge=vmbr1,tag=1040 --agent enabled=1,fstrim_cloned_disks=1
-qm importdisk 1000 /var/lib/vz/template/iso/focal-server-cloudimg-amd64.img proxmox -format qcow2
-qm set 1000 --scsihw virtio-scsi-pci --scsi0 proxmox:1000/vm-1000-disk-0.qcow2,ssd=1,discard=on
+qm create 1000 --name focal-server-cloudimg-amd64 --memory 8192 --cpu cputype=host --cores 4 --serial0 socket --vga serial0 --net0 virtio,bridge=vmbr1,tag=1040 --agent enabled=1
+qm importdisk 1000 /var/lib/vz/template/iso/focal-server-cloudimg-amd64.img local-lvm -format qcow2
+qm set 1000 --scsihw virtio-scsi-pci --scsi0 local-lvm:vm-1000-disk-0,discard=on
 qm template 1000
 ```
 
@@ -31,6 +31,6 @@ For example, for node `k3s-1`, we create VM ID 401 by running the following:
 ```shell
 qm clone 1000 401 --name k3s-1 --format raw --full --storage local-lvm
 qm resize 401 scsi0 64G
-qm set 401 --boot 3 --bootdisk scsi0
+qm set 401 --boot c --startup order=3 -onboot 1 --bootdisk scsi0
 qm set 401 -cdrom /var/lib/vz/template/iso/k3s-seed-k3s-1.iso
 ```

@@ -6,7 +6,7 @@ My x86_64 / amd64 nodes are built on top of Proxmox instead of bare metal nodes 
 
 ## arm64
 
-My arm64 nodes includes the master node for the full cluster as well as a few worker nodes. My long term goal is to have core services run on the low power arm nodes and in the even of a power failure, allow for longer overall runtime with my UPS by shutting down the higher power x86_64 nodes and running network + arm nodes for a longer period of time. Please see the [arm64 README.md](arm64/README.md) for more information.
+My arm64 nodes consists of three 8GB Raspberry Pi 4 worker nodes. My long term goal is to have core services run on the low power arm nodes and in the event of a power failure, allow for longer overall runtime with my UPS by shutting down the higher power x86_64 nodes and running network + arm nodes for a longer period of time. Please see the [arm64 README.md](arm64/README.md) for more information.
 
 ## Credits
 

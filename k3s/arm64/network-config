@@ -9,4 +9,5 @@ vlans:
     id: 1040
     link: eth0
     nameservers:
+      search: [homelab.tokyo]
       addresses: [ "10.10.10.4" ]
