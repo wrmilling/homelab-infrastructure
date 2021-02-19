@@ -30,7 +30,7 @@ list() {
 }
 
 generate() {
-  NODE="$2"
+  NODE="$1"
   if [ -f "nodes/$NODE" ]
   then
     echo "Node $NODE found."
@@ -61,7 +61,7 @@ generate)
   need "scp"
   need "envsubst"
   need "cloud-localds"
-  generate
+  generate $2
   ;;
 list)
   list
