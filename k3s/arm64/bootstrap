@@ -35,7 +35,7 @@ list() {
 
 prepare() {
   # Check for node validity
-  NODE="$2"
+  NODE="$1"
   if [ -f "nodes/$NODE" ]; then
     echo "Node $NODE found"
   else
@@ -45,7 +45,7 @@ prepare() {
   fi
 
   # Check for volume validity
-  TARGET_VOLUME="$3"
+  TARGET_VOLUME="$2"
   if [ -z "$TARGET_VOLUME" ]; then
     echo "No target volume provided, checking default"
     if [ -f /Volumes/system-boot/cmdline.txt ]; then
@@ -74,7 +74,7 @@ prepare() {
 case "$1" in
 prepare)
   need "envsubst"
-  prepare
+  prepare $2 $3
   ;;
 list)
   list
