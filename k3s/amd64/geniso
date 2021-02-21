@@ -47,15 +47,17 @@ generate() {
   echo "Touching meta-data file."
   touch meta-data
   echo "Populating variables to temporary user-data file."
-  UBUNTU_PASSWORD="${UBUNTU_PASSWORD}" K3S_NODE_TOKEN="${K3S_NODE_TOKEN}" envsubst < "nodes/${NODE}" > "user-data"
+  UBUNTU_PASSWORD="${UBUNTU_PASSWORD}" K3S_NODE_TOKEN="${K3S_NODE_TOKEN}" INTERNAL_DOMAIN=${INTERNAL_DOMAIN} envsubst < "nodes/${NODE}" > "user-data"
   echo "Running cloud-localds for your node."
-  if [ -f "nodes/$NODE.network-config" ]; then 
-    cloud-localds k3s-seed-$NODE.iso --network-config=nodes/$NODE.network-config user-data meta-data
+  if [ -f "nodes/$NODE.network-config" ]; then
+    INTERNAL_DOMAIN=${INTERNAL_DOMAIN} envsubst < "nodes/${NODE}.network-config" > "network-config" 
+    cloud-localds k3s-seed-$NODE.iso --network-config=network-config user-data meta-data
   else 
     cloud-localds k3s-seed-$NODE.iso user-data meta-data
   fi
   rm user-data
   rm meta-data
+  rm network-config
   echo "Copying seed ISO to Proxmox"
   scp k3s-seed-$NODE.iso root@destiny:/var/lib/vz/template/iso/
 }
