@@ -59,7 +59,7 @@ generate() {
   rm meta-data
   rm network-config
   echo "Copying seed ISO to Proxmox"
-  scp k3s-seed-$NODE.iso root@destiny:/var/lib/vz/template/iso/
+  scp k3s-seed-$NODE.iso root@${PROXMOX_SERVER}:/var/lib/vz/template/iso/
 }
 
 case "$1" in
