@@ -66,9 +66,9 @@ prepare() {
   echo "copying cmdline.txt to $TARGET_VOLUME/cmdline.txt"
   cp -f cmdline.txt "$TARGET_VOLUME/cmdline.txt"
   echo "copying nodes/${NODE}.network-config to $TARGET_VOLUME/network-config"
-  INTERNAL_DOMAIN=${INTERNAL_DOMAIN} envsubst < nodes/${NODE}.network-config > "$TARGET_VOLUME/network-config"
+  envsubst < nodes/${NODE}.network-config > "$TARGET_VOLUME/network-config"
   echo "copying nodes/${NODE} to $TARGET_VOLUME/user-data"
-  UBUNTU_PASSWORD="${UBUNTU_PASSWORD}" K3S_NODE_TOKEN="${K3S_NODE_TOKEN}" envsubst < "nodes/${NODE}" > "$TARGET_VOLUME/user-data"
+  envsubst < "nodes/${NODE}" > "$TARGET_VOLUME/user-data"
 }
 
 case "$1" in
