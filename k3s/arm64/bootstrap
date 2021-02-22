@@ -30,7 +30,7 @@ EOF
 
 list() {
   echo -e "The following node files are detected:\n"
-  ls -1 nodes
+  ls -1 nodes | grep -v network-config
 }
 
 prepare() {
@@ -65,8 +65,8 @@ prepare() {
 
   echo "copying cmdline.txt to $TARGET_VOLUME/cmdline.txt"
   cp -f cmdline.txt "$TARGET_VOLUME/cmdline.txt"
-  echo "copying network-config to $TARGET_VOLUME/network-config"
-  INTERNAL_DOMAIN=${INTERNAL_DOMAIN} envsubst < network-config > "$TARGET_VOLUME/network-config"
+  echo "copying nodes/${NODE}.network-config to $TARGET_VOLUME/network-config"
+  INTERNAL_DOMAIN=${INTERNAL_DOMAIN} envsubst < nodes/${NODE}.network-config > "$TARGET_VOLUME/network-config"
   echo "copying nodes/${NODE} to $TARGET_VOLUME/user-data"
   UBUNTU_PASSWORD="${UBUNTU_PASSWORD}" K3S_NODE_TOKEN="${K3S_NODE_TOKEN}" envsubst < "nodes/${NODE}" > "$TARGET_VOLUME/user-data"
 }
