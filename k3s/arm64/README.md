@@ -15,7 +15,7 @@ Download: [Ubuntu Server 20.04.2 LTS](https://ubuntu.com/download/raspberry-pi/t
 The steps to prepare the drive are automated through the [bootstrap](bootstrap) script. The steps to prepare the drive are automated through the [bootstrap](bootstrap) script. Example run below: 
 
 ```bash
-./bootstrap k3s-pi4-a /mnt/system-boot
+./bootstrap prepare k3s-pi4-a /mnt/system-boot
 ```
 
 ### Manual
