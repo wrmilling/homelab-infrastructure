@@ -1,6 +1,6 @@
 # arm64 Bootstrap on Bare-metal
 
-This guide sets up a Raspberry Pi 4 as either a k3s master node or as a k3s worker node which joins your existing k3s cluster. 
+This guide sets up a Raspberry Pi 4 as a k3s worker node which joins your existing k3s cluster. The cloud-init configs in this repo assume you have a flash drive/ssd plugged into USB for longhorn usage and is located at `/dev/sda`.
 
 ## OS Image
 
@@ -25,7 +25,7 @@ The manual steps tp prepare the drive are as follows:
 1. Mount the newly created drive on your system (example mount point: `/mnt/system-boot/`)
 2. Copy the following files to that drive
    1. user-data: `envsubst < ./nodes/k3s-pi4-a > /mnt/system-boot/user-data`
-   2. network-config: `cp ./network-config /mnt/system-boot/network-config`
+   2. network-config: `envsubst < ./nodes/k3s-pi4-a.network-config > "$TARGET_VOLUME/network-config"`
    3. cmdline.txt: `cp ./cmdline.txt /mnt/system-boot/cmdline.txt`
 
 

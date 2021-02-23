@@ -25,6 +25,8 @@ For each 'node' that needs to be created,
 * Resize the hard drive to the new desired size
 * Force booting from the new drive
 * Add the seed ISO file to the VM
+* Add a disk (virtual or real) for longhorn
+* Up the memory if it is a worker node (16GB in example
 
 For example, for node `k3s-1`, we create VM ID 401 by running the following:
 
@@ -33,4 +35,8 @@ qm clone 1000 401 --name k3s-1 --format raw --full --storage local-lvm
 qm resize 401 scsi0 64G
 qm set 401 --boot c --startup order=3 -onboot 1 --bootdisk scsi0
 qm set 401 -cdrom /var/lib/vz/template/iso/k3s-seed-k3s-1.iso
+qm set 401 -scsi1 local-lvm:32
+qm set 401 --memory 16384
 ```
+
+My most recent build of the nodes should be available as a [script](/scripts) in this repo.

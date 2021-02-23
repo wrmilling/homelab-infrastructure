@@ -26,6 +26,7 @@ packages:
 - vim
 - nfs-common
 - qemu-guest-agent
+- open-iscsi
 
 ntp:
   enabled: true`

@@ -22,12 +22,29 @@ package_upgrade: true
 ntp:
   enabled: true
 
+# This disk setup is "cowboy" mode, /dev/sda will be blown away on setup.
+disk_setup:
+  /dev/sda:
+    table_type: 'gpt'
+    layout: true
+    overwrite: true
+
+fs_setup:
+  - label: longhorn
+    filesystem: ext4
+    device: '/dev/sda'
+    partition: auto
+
+mounts: 
+  - [sda, /longhorn, auto, "defaults", "0", "0"]
+
 packages:
 - curl
 - wget
 - htop
 - vim
 - nfs-common
+- open-iscsi
 
 runcmd:
 - ln -sfn /run/systemd/resolve/resolv.conf /etc/resolv.conf

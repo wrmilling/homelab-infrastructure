@@ -19,6 +19,22 @@ ssh_authorized_keys:
 package_update: true
 package_upgrade: true
 
+# This disk setup is "cowboy" mode, /dev/sdb will be blown away on setup.
+disk_setup:
+  /dev/sdb:
+    table_type: 'gpt'
+    layout: true
+    overwrite: true
+
+fs_setup:
+  - label: longhorn
+    filesystem: ext4
+    device: '/dev/sdb'
+    partition: auto
+
+mounts: 
+  - [sdb, /longhorn, auto, "defaults", "0", "0"]
+
 packages:
 - curl
 - wget
@@ -26,6 +42,7 @@ packages:
 - vim
 - nfs-common
 - qemu-guest-agent
+- open-iscsi
 
 ntp:
   enabled: true
