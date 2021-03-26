@@ -1,9 +1,9 @@
 version: 2
 ethernets:
-  ens18: 
+  ens18:
     dhcp4: false
     addresses: [10.10.40.40/24]
     gateway4: 10.10.40.1
     nameservers:
       search: [$INTERNAL_DOMAIN]
-      addresses: [10.10.10.4]
+      addresses: [10.10.40.61]
