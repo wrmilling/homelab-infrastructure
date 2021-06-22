@@ -8,6 +8,5 @@ ethernets:
       search: [$INTERNAL_DOMAIN]
       addresses:
       - 10.10.40.61
-      - 10.10.40.62
       - 10.10.10.4
 version: 2
