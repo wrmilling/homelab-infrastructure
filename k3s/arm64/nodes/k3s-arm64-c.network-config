@@ -5,7 +5,6 @@ ethernets:
     addresses: [10.10.40.46/24]
     gateway4: 10.10.40.1
     nameservers:
-      search: [$INTERNAL_DOMAIN]
       addresses:
       - 10.10.40.61
       - 10.10.10.4
