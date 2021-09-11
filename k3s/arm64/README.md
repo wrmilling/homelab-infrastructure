@@ -1,6 +1,6 @@
 # arm64 Bootstrap on Bare-metal
 
-This guide sets up a Raspberry Pi 4 as a k3s worker node which joins your existing k3s cluster. The cloud-init configs in this repo assume you have a flash drive/ssd plugged into USB for longhorn usage and is located at `/dev/sda`.
+This guide sets up a Raspberry Pi 4 as a k3s worker node which joins your existing k3s cluster.
 
 ## OS Image
 

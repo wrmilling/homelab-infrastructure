@@ -25,7 +25,7 @@ For each 'node' that needs to be created,
 * Resize the hard drive to the new desired size
 * Force booting from the new drive
 * Add the seed ISO file to the VM
-* Add a disk (virtual or real) for longhorn
+* Add a disk (virtual or real) for rook-ceph
 * Up the memory if it is a worker node (16GB in example
 
 For example, for node `k3s-1`, we create VM ID 401 by running the following:

@@ -35,7 +35,7 @@ runcmd:
 - ln -sfn /run/systemd/resolve/resolv.conf /etc/resolv.conf
 - echo 'GRUB_CMDLINE_LINUX_DEFAULT="$GRUB_CMDLINE_LINUX_DEFAULT ipv6.disable=1"' | tee /etc/default/grub.d/ipv6.cfg
 - apt-get install -fy linux-modules-extra-$(uname -r)
-- 'curl -sfL https://get.k3s.io | K3S_URL=https://k3s-amd64-0:6443 K3S_TOKEN=$K3S_NODE_TOKEN sh -s - --node-label kernel-upgrade=enabled --node-label k3s-upgrade=enabled --node-label node.longhorn.io/create-default-disk=true'
+- 'curl -sfL https://get.k3s.io | K3S_URL=https://k3s-amd64-0:6443 K3S_TOKEN=$K3S_NODE_TOKEN sh -s - --node-label kernel-upgrade=enabled --node-label k3s-upgrade=enabled'
 - apt autoremove -fy
 - sync
 - reboot -f
