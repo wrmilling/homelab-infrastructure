@@ -1,0 +1,15 @@
+image: alpine/edge
+secrets:
+- d9b1d7da-403c-4b47-9295-7fdc50dc2359
+sources:
+- https://git.sr.ht/~wrmilling/homelab-infrastructure
+tasks:
+- push: |
+    # Ensure we are on the main branch, exit build if not
+    cd dotfiles
+    git diff -s --exit-code origin/main || complete-build
+
+    # Push copy of code to GitHub
+    ssh-keyscan -H github.com >> ~/.ssh/known_hosts
+    git remote add github git@github.com:wrmilling/homelab-infrastructure.git
+    git push github main
