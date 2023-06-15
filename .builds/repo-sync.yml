@@ -1,6 +1,6 @@
 image: alpine/edge
 secrets:
-- d9b1d7da-403c-4b47-9295-7fdc50dc2359
+- f3b41d81-0cf6-4380-a4f2-4199cee27354
 sources:
 - https://git.sr.ht/~wrmilling/homelab-infrastructure
 tasks:
@@ -13,3 +13,8 @@ tasks:
     ssh-keyscan -H github.com >> ~/.ssh/known_hosts
     git remote add github git@github.com:wrmilling/homelab-infrastructure.git
     git push github main
+
+    # Push copy of code to Codeberg
+    ssh-keyscan -H codeberg.org >> ~/.ssh/known_hosts
+    git remote add codeberg git@codeberg.org:wrmilling/homelab-infrastructure.git
+    git push codeberg main
